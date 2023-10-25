@@ -19,12 +19,25 @@ namespace Infrastructure.Data
                 query = query.Where(specifications.Criteria);   //Criteria can be anything like "p => p.ProductTypeId == id"
             }
 
-            query = specifications.Includes.Aggregate(query, 
-                                                      (current, include) => current.Include(include)
-                                                    );
+            if (specifications.OrderBy != null)
+            {
+                query = query.OrderBy(specifications.OrderBy); //sorting with orderBy
+            }
 
-            return query;
-        
+            if (specifications.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(specifications.OrderByDescending); //sorting with orderByDescending
+            }
+
+            if (specifications.IsPagingEnabled)
+            {
+                query = query.Skip(specifications.Skip).Take(specifications.Take); // executing paginations
+            }
+
+
+            query = specifications.Includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return query;        
         }
     }
 }
