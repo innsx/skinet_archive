@@ -1,0 +1,20 @@
+<div class="card shadow-sm h-100">
+  <img
+    src="{{ childProductitem.pictureUrl }}"
+    alt="{{ childProductitem.name }}"
+    class="img-fluid bg-info"
+  />
+  <div class="card-body d-flex flex-column">
+    <a routerLink="/shop/{{childProductitem.id}}">
+      <h5 class="text-uppercase">{{ childProductitem.name }}</h5>
+    </a>
+    <span class="mb-2">{{ childProductitem.price | currency }}</span>
+    <div class="btn-group mt-auto">
+      <button
+        type="button"
+        class="btn btn-outline-secondary fa fa-shopping-cart mr-3"
+      ></button>&nbsp; 
+      <button type="button" class="btn btn-outline-secondary" routerLink="/shop/{{childProductitem.id}}">View</button>
+    </div>
+  </div>
+</div>
