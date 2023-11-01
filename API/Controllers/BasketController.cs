@@ -21,14 +21,7 @@ namespace API.Controllers
         {
             var basket = await _basketRepository.GetBasketAsync(id);
 
-            if (basket == null)
-            {
-                return NotFound();
-            }
-
-            var newCustomerBasketId = new CustomerBasket(id);
-
-            return Ok(newCustomerBasketId);
+            return Ok(basket ?? new CustomerBasket(id));
         }
 
         [HttpPost]
