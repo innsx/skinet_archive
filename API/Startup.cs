@@ -1,19 +1,14 @@
-using System.Linq;
-using API.Errors;
 using API.Extensions;
 using API.Helpers;
 using API.MiddleWare;
 using AutoMapper;
-using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
 
@@ -44,6 +39,8 @@ namespace API
 
             services.AddSwaggerDocumentation(); //SwaggerServicesExtension.cs class
 
+            services.AddIdentityServices(_config); // IdentityServiceExtensions.cs class
+
             // Adding CORS --- CROSS ORIGIN RESOURCES SHARING
             services.AddCors(opt =>
             {
@@ -57,6 +54,11 @@ namespace API
                 var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
 
                 return ConnectionMultiplexer.Connect(configuration);
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(options => 
+            {
+                options.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
         }
 
@@ -82,6 +84,8 @@ namespace API
 
             app.UseCors("CorsPolicy"); // Implements CORS
 
+            app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();  // SwaggerServicesExtension
