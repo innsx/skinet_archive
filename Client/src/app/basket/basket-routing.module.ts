@@ -5,16 +5,16 @@ import { BasketComponent } from './basket.component';
 
 const routes: Routes = [
   { path: '', component: BasketComponent },
-]
+];
 
 @NgModule({
   declarations: [],
   imports: [
-    //CommonModule,
+    CommonModule,
     RouterModule.forChild(routes)
   ],
   exports: [
-    RouterModule    
+    RouterModule
   ]
 })
 export class BasketRoutingModule { }

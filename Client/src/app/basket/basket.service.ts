@@ -24,6 +24,7 @@ export class BasketService {
     return this.http.get(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
+        console.log('Current Basket Item(s): ', this.getCurrentBasketValue());
         this.calculateTotals();
       })
     );
@@ -45,7 +46,13 @@ export class BasketService {
   addItemToBasket(item: IProduct, quantity = 1) {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);
 
-    const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    // const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    let basket = this.getCurrentBasketValue();
+
+    console.log('Current Basket: ', basket);
+    if (basket === null) {
+      basket = this.createBasket();
+    }
 
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
 
@@ -75,6 +82,7 @@ export class BasketService {
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number) {
     const index = items.findIndex(i => i.id === itemToAdd.id);
 
+    console.log('Items: ', items);
     // if index is not found
     if (index === -1) {
       itemToAdd.quantity = quantity;

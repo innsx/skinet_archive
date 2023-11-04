@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IProduct } from './shared/models/product';
 import { IPagination } from './shared/models/pagination';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 
 @Component({
@@ -13,12 +14,13 @@ import { BasketService } from './basket/basket.service';
 export class AppComponent implements OnInit {
 
   title = 'SkiNet E-Commerce App';
-  
-  constructor(private basketService: BasketService) {    
+
+  constructor(private basketService: BasketService, private accountService: AccountService) {
   }
 
   ngOnInit(): void {
     this.loadBasket();
+    this.loadCurrentUser();
   }
 
   loadBasket() {
@@ -26,11 +28,22 @@ export class AppComponent implements OnInit {
 
     if (basketId) {
       this.basketService.getBasket(basketId).subscribe(() => {
-        console.log('Initialized Basket: ', basketId);
+        console.log('BasketId From LocalStorage: ', basketId);
       }, error => {
         console.log(error);
-      })
+      });
+    } else {
+      console.log('No basketId available');
     }
   }
 
+  loadCurrentUser() {
+    const token = localStorage.getItem('token');
+
+    this.accountService.loadCurrentUser(token).subscribe(() => {
+      console.log('Loaded User Info');
+    }, error => {
+      console.log('Error: ', error);
+    });
+  }
 }

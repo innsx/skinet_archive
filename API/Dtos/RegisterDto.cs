@@ -8,7 +8,7 @@ namespace API.Dtos
         public string Email { get; set; }
 
         [Required]
-        //[EmailAddress()]
+        [EmailAddress]
         public string DisplayName { get; set; }
 
         [Required]

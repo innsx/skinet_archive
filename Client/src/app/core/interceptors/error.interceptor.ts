@@ -15,16 +15,16 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private router: Router, private toastr: ToastrService) {}
 
-  //catching any ERRORS that comes back as HTTP responses
+  // catching any ERRORS that comes back as HTTP responses
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(     
+    return next.handle(request).pipe(
       catchError(error => {
         if (error.status === 400) {
           if (error.error.errors) {
-            throw error.error
+            throw error.error;
           } else {
             this.toastr.error(error.error.message, error.error.statusCode);
-          }          
+          }
         }
 
          // if status code = 401, then use TOASTR POPUP with ERROR in HTTP RESPONSE
@@ -39,9 +39,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         // if status code = 500, then redirect by below URL
         if (error.status === 500){
-          const navigationExtras: NavigationExtras = {state: {error: error.error}}
+          const navigationExtras: NavigationExtras = {state: {error: error.error}};
           this.router.navigateByUrl('/server-error', navigationExtras);
-          
+
         }
         // catching any OTHER ERRORS NOT FILTERED ABOVE BY THROWING THE ERROR
         return throwError(error);

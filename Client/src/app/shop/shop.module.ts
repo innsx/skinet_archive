@@ -8,8 +8,8 @@ import { ShopRoutingModule } from './shop-routing.module';
 
 @NgModule({
   declarations: [
-    ShopComponent, 
-    ProductItemComponent, 
+    ShopComponent,
+    ProductItemComponent,
     ProductDetailsComponent
   ],
   imports: [
@@ -18,7 +18,6 @@ import { ShopRoutingModule } from './shop-routing.module';
     ShopRoutingModule
   ],
   exports: [
-    
   ]
 })
 export class ShopModule { }

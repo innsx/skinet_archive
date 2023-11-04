@@ -9,6 +9,6 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule
   ],
-  exports:[HomeComponent]
+  exports: [HomeComponent]
 })
 export class HomeModule { }

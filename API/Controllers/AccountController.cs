@@ -34,25 +34,6 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
-
-            if (user == null) return Unauthorized(new ApiResponse(401));
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-            if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
-
-            return new UserDto
-            {
-                DisplayName = user.DisplayName,
-                Email = user.Email,
-                Token = _tokenService.CreateToken(user)
-            };
-        }
-
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -82,6 +63,25 @@ namespace API.Controllers
             var userAddress = user.Address;
 
             return _mapper.Map<Address, AddressDto>(userAddress);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        {
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+
+            if (user == null) return Unauthorized(new ApiResponse(401));
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
+
+            return new UserDto
+            {
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("register")]
@@ -119,6 +119,7 @@ namespace API.Controllers
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
         {
             var user = await _userManager.FindByUserAddressFromClaimsPrincipalAsync(HttpContext.User);
+            
             user.Address = _mapper.Map<AddressDto, Address>(address);
 
             var updateUserAddress = await _userManager.UpdateAsync(user);
