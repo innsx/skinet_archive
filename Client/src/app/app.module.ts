@@ -12,6 +12,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GlobalErrorHandler } from './shared/globalErrorHandler';
+import { JwtInterceptor } from './core/interceptors/jwt.intercetpor';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { GlobalErrorHandler } from './shared/globalErrorHandler';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: ErrorHandler, useClass: GlobalErrorHandler}
+    // {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
