@@ -54,6 +54,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
+  // when customer returns, the basket info is FETCHED with unchanged or is updated basket info
   getDeliveryMethodValue() {
     const basket = this.basketService.getCurrentBasketValue();
 

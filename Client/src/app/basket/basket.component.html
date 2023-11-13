@@ -1,6 +1,6 @@
 <div class="container mt-2">
     <div *ngIf="(basket$ | async) === null">
-        <p>There are no items in your baske</p>
+        <p class="text-primary font-weight-bold">There are no items in your basket!</p>
     </div>
 
     <div *ngIf="(basket$ | async)">
@@ -17,7 +17,6 @@
                         </app-basket-summary>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-6 offset-6">
                         <app-order-totals

@@ -5,10 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BasketService } from 'src/app/basket/basket.service';
 import { IBasket } from 'src/app/shared/models/basket';
 import { CheckoutService } from '../checkout.service';
-import { IOrder } from 'src/app/shared/models/order';
-import { AccountService } from 'src/app/account/account.service';
 
-declare var Stripe;
+declare var Stripe: any;
 
 @Component({
   selector: 'app-checkout-payment',
@@ -23,24 +21,29 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy, OnIni
   @ViewChild('cardCvc', { static: true }) cardCvcElement: ElementRef;
 
   stripe: any;
+
   cardNumber: any;
   cardExpiry: any;
   cardCvc: any;
   cardErrors: any;
+
   cardHandler = this.onChange.bind(this);
+
   loading = false;
+
   cardNumberValid = false;
   cardExpiryValid = false;
   cardCvcValid = false;
 
   constructor(private basketService: BasketService, private checkoutService: CheckoutService,
-              private toastr: ToastrService, private router: Router) { }
+              private toastr: ToastrService, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.stripe = Stripe('pk_test_2PZ84pFKu2MddUgGDG521v9m00SlLWySIR');
+    this.stripe = Stripe('pk_test_51OAhe3IoWZ7UMj9Jt6iULaLeUJ0XlWK6XlR4wN129N3DgLrqAnEPhjHmaEnBmuhpEk4gvS8brFT95QdxBj5gUIhC00AjSPGA9f');
     const elements = this.stripe.elements();
 
     this.cardNumber = elements.create('cardNumber');
@@ -62,6 +65,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy, OnIni
     this.cardCvc.destroy();
   }
 
+  // CardNumber input control Event VALIDATIONS
   onChange(event) {
     if (event.error) {
       this.cardErrors = event.error.message;
@@ -84,19 +88,22 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy, OnIni
 
   async submitOrder() {
     this.loading = true;
-    const basket = this.basketService.getCurrentBasketValue();
+    const basket = this.basketService.getCurrentBasketValue(); // getting the basket in-memeory
 
     try {
       const createdOrder = await this.createOrder(basket);
       const paymentResult = await this.confirmPaymentWithStripe(basket);
 
       if (paymentResult.paymentIntent) {
+        // this.basketService.deleteBasket(basket);
         this.basketService.deleteLocalBasket(basket.id);
         const navigationExtras: NavigationExtras = { state: createdOrder };
+        this.toastr.success('Payment Intent is confirmed!');
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {
         this.toastr.error(paymentResult.error.message);
       }
+
       this.loading = false;
 
     } catch (error) {
