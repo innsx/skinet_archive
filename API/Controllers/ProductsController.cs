@@ -68,6 +68,7 @@ namespace API.Controllers
 
         // productBrand
         [HttpGet("brands")]
+        [Cached(600)]   // caching Object for 600 seconds
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             var productBrands = await _productBrandRepo.ListAllAsync();
@@ -85,6 +86,7 @@ namespace API.Controllers
 
         // ProductTypes
         [HttpGet("types")]
+        [Cached(600)]   // caching Object for 600 seconds
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
             var productTypes = await _productTypeRepo.ListAllAsync();

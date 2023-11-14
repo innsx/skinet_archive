@@ -19,6 +19,7 @@ namespace API.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IResponseCacheService, ResponseCacheService>();
 
             services.Configure<ApiBehaviorOptions>(options => 
             {

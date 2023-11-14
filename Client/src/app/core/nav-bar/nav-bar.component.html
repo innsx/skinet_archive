@@ -1,9 +1,9 @@
 <header class="d-flex flex-column flex-md-row align-items-center justify-content-between  p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top ">
     <img src="/assets/images/logo.png" alt="logo" style="max-height: 70px;" class="logo">
     <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
-      <a class="p-2 " [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-      <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
-      <a class="p-2 " routerLink="/test-error" routerLinkActive="active " >Errors</a>
+      <a class="nav-bar p-2 " [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="nav-bar p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
+      <a class="nav-bar p-2 " routerLink="/test-error" routerLinkActive="active " >Errors</a>
     </nav>
     <div class="d-flex align-items-center">
         <a class="position-relative" routerLink="/basket">
@@ -23,19 +23,19 @@
                 </strong>
             </a>
             <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;" *dropdownMenu>
-              <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2">
+              <a routerLink="/basket" class="dd-menu dropdown-item d-flex align-items-center py-2">
                 <i class="fa fa-shopping-cart mr-3">
                   View Basket
                 </i>
               </a>
-              <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
+              <a routerLink="/orders" class="dd-menu dropdown-item d-flex align-items-center py-2">
                 <i class="fa fa-history mr-3">
                   View Orders
                 </i>
               </a>
               <div class="dropdown-divider">                
               </div>
-              <a class="dropdown-item d-flex align-items-center py-2" (click)="logout()">
+              <a class="dd-menu dropdown-item d-flex align-items-center py-2" (click)="logout()">
                 <i class="fa fa-sign-out mr-3">
                   Logout
                 </i>
